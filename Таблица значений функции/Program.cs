@@ -26,44 +26,40 @@ namespace Таблица_значений_функции
             return Convert.ToInt32(Console.ReadLine());
         }
 
-        static void PrintBox(int maxLength)
+        static void PrintBox(int maxLength,int step, int forRange, int toRange, int length)
         {
-            Console.WriteLine(maxLength);                                                                       //Console.WriteLine("╔═════╗");
-                                                                                    //Console.WriteLine("║     ║");
-            PrintLine(maxLength, "╠", "╦", "╣");//Console.WriteLine("╠══╦══╣");
-            PrintForYandX(maxLength);           //Console.WriteLine("║  ║  ║");
-            PrintLine(maxLength, "╠", "╬", "╣");//Console.WriteLine("╠══╬══╣");
-            PrintBigPlan(                                    //Console.WriteLine("║  ║  ║");
-            PrintLine(maxLength, "╚", "╩", "╝");//Console.WriteLine("╚══╩══╝");
+            Console.WriteLine(maxLength);
+            PrintLine(maxLength, "╔", "═", "╗");//╔═══════╗
+                                                //║       ║
+            PrintLine(maxLength, "╠", "╦", "╣");//╠═══╦═══╣
+                                                //║ X ║ Y ║
+            PrintLine(maxLength, "╠", "╬", "╣");//╠═══╬═══╣
+                                                //║...║...║
+            PrintLine(maxLength, "╚", "╩", "╝");//╚═══╩═══╝
         }
 
         static void PrintLine(int maxLength, string lineLeft, string lineMiddle,  string lineRight)
         {
             Console.Write(lineLeft);
-            for (int i = 0; i != maxLength; i++)
+            for (int i = 0; i <= maxLength; i++)
                 Console.Write("═");
             Console.Write(lineMiddle);
-            for (int i = 0; i != maxLength; i++)
+            for (int i = 0; i <= maxLength; i++)
                 Console.Write("═");
             Console.WriteLine(lineRight);
         }
 
-        static void PrintForYandX(int maxLength)
+        static void PrintNumberLine(int step, int forRange, int toRange, int length)
         {
-            Console.Write("║");
-            for (int i = 0; i <= (maxLength / 2 - 1); i++)
-                Console.Write(" ");
-            Console.Write("Y");
-            for (int i = 0; i <= (maxLength / 2 - 1); i++)
-                Console.Write(" ");
-            Console.Write("║");
-            for (int i = 0; i <= (maxLength / 2 - 1); i++)
-                Console.Write(" ");
-            Console.Write("X");
-            for (int i = 0; i <= (maxLength / 2 - 1); i++)
-                Console.Write(" ");
-            Console.WriteLine("║");
-        }     
+            for (int x = forRange; x <= toRange; x += length)
+            {
+                int lengthX = Convert.ToString(x).Length;
+                int y = Function(x);
+                int lengthY = Convert.ToString(y).Length;
+
+
+            }
+        }
 
         static void Main(string[] args)
         {
@@ -73,15 +69,15 @@ namespace Таблица_значений_функции
 
             Console.WriteLine("Введите диапозон значений.");
 
-            Console.WriteLine("От:");
+            Console.Write("От:");
             int forRange = OutInt();
 
-            Console.WriteLine("До:");
+            Console.Write("До:");
             int toRange = OutInt();
 
 
             int maxLength = FindMaxLength(step, forRange, toRange);
-            PrintBox(maxLength);
+            PrintBox(maxLength, step, forRange, toRange, maxLength);
 
         }
     }
