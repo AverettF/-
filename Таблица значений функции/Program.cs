@@ -4,38 +4,57 @@ namespace Таблица_значений_функции
 {
     class Program
     {
-        static int GetFunctionY(int x)
+        static double GetFunctionY(double x)
         {
-            return 10*x;//x * x - 4 * x - 2;
+            return Math.Round(x * x - 4 * x - 2, 2);
         }
 
-        static int FindMaxLength(int step, int forRange, int toRange)
+        static int FindMaxLength(double step, double forRange, double toRange,string title)
         {
             int maxLength = 0;
-            for (int i = forRange; i <= toRange; i += step)
+            for (double x = forRange; x <= toRange; x += step)
             {
-                int intFuncL = Convert.ToString(GetFunctionY(i)).Length;
+                x = Math.Round(x, 2);
+                int intX = Convert.ToString(x).Length;
+                if (intX > maxLength)
+                    maxLength = intX;
+
+                int intFuncL = Convert.ToString(GetFunctionY(x)).Length;
                 if (intFuncL > maxLength)
                     maxLength = intFuncL;
             }
+
+            if (title.Length > maxLength)
+                maxLength = title.Length;
+
             return maxLength;
         }
 
-        static int OutInt()
+        static double OutInt()
         {
-            return Convert.ToInt32(Console.ReadLine());
+            while (true)
+            {
+                try
+                {
+                    return Convert.ToDouble(Console.ReadLine());
+                }
+                catch
+                {
+                    Console.WriteLine("Я вас не понял");
+                }
+            }
         }
 
-        static void PrintBox(int maxLength,int step, int forRange, int toRange)
+        static void PrintBox(int maxLength, double step, double forRange, double toRange,string title)
         {
             Console.WriteLine(maxLength);
-            PrintLine(maxLength, "╔", "═", "╗");//╔═══════╗
-                                                //║ Оглав ║
-            PrintLine(maxLength, "╠", "╦", "╣");//╠═══╦═══╣
-            PrintXandYline(maxLength);          //║ X ║ Y ║
-            PrintLine(maxLength, "╠", "╬", "╣");//╠═══╬═══╣
-            PrintNumberLine(step, forRange, toRange, maxLength);              //║...║...║
-            PrintLine(maxLength, "╚", "╩", "╝");//╚═══╩═══╝
+            PrintLine(maxLength, "╔", "═", "╗");                //╔═══════╗
+            PrintTitle(title,maxLength) ;                       //║ Оглав ║
+            PrintLine(maxLength, "╠", "╦", "╣");                //╠═══╦═══╣
+            PrintXandYline(maxLength);                          //║ X ║ Y ║
+            PrintLine(maxLength, "╠", "╬", "╣");                //╠═══╬═══╣
+            PrintNumberLine(step, forRange, toRange, maxLength);//║...║...║
+            PrintLine(maxLength, "╚", "╩", "╝");                //╚═══╩═══╝
         }
 
         static void PrintLine(int maxLength, string lineLeft, string lineMiddle,  string lineRight)
@@ -49,74 +68,76 @@ namespace Таблица_значений_функции
             Console.WriteLine(lineRight);
         }
 
-        static void PrintNumberLine(int step, int forRange, int toRange, int length)
-        {
-            for (int x = forRange; x <= toRange; x += step)
-            {
-                int numberLengthX = Convert.ToString(x).Length;
-                int numberLengthY = Convert.ToString(GetFunctionY(x)).Length;
-
-                Console.Write("║");
-                for (int i = 1; i <= (length - numberLengthX) / 2; i++)
-                    Console.Write(" ");
-                Console.Write(x);
-                for (int i = 1; i <= (length - numberLengthX) / 2; i++)
-                    Console.Write(" ");
-                if ((length - numberLengthX) % 2 == 1)
-                    Console.Write(" ");
-                                Console.Write("║");
-
-                for (int i = 1; i <= (length - numberLengthY) / 2; i++)
-                    Console.Write(" ");
-                Console.Write(GetFunctionY(x));
-                for (int i = 1; i <= (length - numberLengthY) / 2; i++)
-                    Console.Write(" ");
-                if ((length - numberLengthY) % 2 == 1)
-                    Console.Write(" ");
-                Console.WriteLine("║");
-            }
-        }
-
-        static void PrintXandYline( int length)
+        static void PrintTitle(string title,int length)
         {
             Console.Write("║");
-            for (int i = 1; i <= (length - 1) / 2; i++)
+            for (int i = 1; i <= (length + length + 1 - title.Length) / 2; i++) 
                 Console.Write(" ");
-            Console.Write("x");
-            for (int i = 1; i <= (length - 1) / 2; i++)
+            Console.Write(title);
+            for (int i = 1; i <= (length + length + 1 - title.Length) / 2; i++) 
                 Console.Write(" ");
-            Console.Write("║");
-            if ((length - 1) % 2 == 1)
-                Console.Write(" ");
-
-            for (int i = 1; i <= (length - 1) / 2; i++)
-                Console.Write(" ");
-            Console.Write("y");
-            for (int i = 1; i <= (length - 1) / 2; i++)
-                Console.Write(" ");
-            if ((length - 1) % 2 == 1)
+            if ((length - title.Length) % 2 == 1)
                 Console.Write(" ");
             Console.WriteLine("║");
         }
 
+        static void PrintNumberLine(double step, double forRange, double toRange, int length)//║...║...║
+        {
+            for (double x = forRange; x <= toRange; x += step)
+            {
+                x = Math.Round(x, 2);
+                string strX = Convert.ToString(x);
+                string strY = Convert.ToString(GetFunctionY(x));
+
+                int lengthNumberX =strX.Length;
+                int lengthNumberY = strY.Length;
+
+                Console.Write("║");
+                PrintNumber(strX,length, lengthNumberX);
+                Console.Write("║");
+                PrintNumber(strY,length, lengthNumberY);
+                Console.WriteLine("║");
+            }
+        }
+
+        static void PrintXandYline( int length)//║ X ║ Y ║
+        {
+            Console.Write("║");
+            PrintNumber("X",length,1);
+            Console.Write("║");
+            PrintNumber("Y",length,1);
+            Console.WriteLine("║");
+        }
+
+        static void PrintNumber(string xy, int length, int numberLength)
+        {
+            for (int i = 1; i <= (length - numberLength) / 2; i++)
+                Console.Write(" ");
+            Console.Write(xy);
+            for (int i = 1; i <= (length - numberLength) / 2; i++)
+                Console.Write(" ");
+            if ((length - numberLength) % 2 == 1)
+                Console.Write(" ");
+        }
+        
         static void Main(string[] args)
         {
+            string title = "x*x-4*x-2";
 
             Console.WriteLine("Введите шаг посторения:");
-            int step = OutInt();                                    //TODO:Сделать проверку 
+            double step = OutInt();                                    //TODO:Сделать проверку 
 
             Console.WriteLine("Введите диапозон значений.");
 
             Console.Write("От:");
-            int forRange = OutInt();
+            double forRange = OutInt();
 
             Console.Write("До:");
-            int toRange = OutInt();
+            double toRange = OutInt();
 
 
-            int maxLength = FindMaxLength(step, forRange, toRange);
-            PrintBox(maxLength, step, forRange, toRange);
-
+            int maxLength = FindMaxLength(step, forRange, toRange,title);
+            PrintBox(maxLength, step, forRange, toRange,title);
         }
     }
 }

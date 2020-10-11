@@ -3,7 +3,8 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
-    <RootNamespace>Таблица_значений_функции</RootNamespace>
+    <RootNamespace>Table_o_ function_values</RootNamespace>
+    <AssemblyName>Table of function values</AssemblyName>
   </PropertyGroup>
 
 </Project>
